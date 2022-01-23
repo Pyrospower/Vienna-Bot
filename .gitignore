@@ -1,0 +1,6 @@
+node_modules/
+.env
+.eslintcr.json
+.vscode
+config.json
+delete.js
