@@ -1,6 +1,6 @@
 # Vienna-Bot
 
-Un bot que j'ai fait dans l'intention de ratio des gens (inspiré par [ce tweet](https://twitter.com/viennavtuber/status/1481998814944837633?s=20), sauf que c'est allé plus loin.
+Un bot que j'ai fait dans l'intention de ratio des gens (inspiré par [ce tweet](https://twitter.com/viennavtuber/status/1481998814944837633?s=20)), sauf que c'est allé plus loin.
 
 Liste de choses à faire :
 - Passer les commandes slash en commandes globales
