@@ -25,12 +25,16 @@ module.exports = {
 	async execute(interaction) {
 		// Récupère le serveur dans lequel la commande a été effectuée
 		const srv = interaction.guild;
+		// Liste des rôles du serveur
+		const srvRoles = srv.roles.cache.sort((a, b) => b.position - a.position).map(r => r);
 		// Récupère le propriétaire du serveur et sa photo de profil
 		const owner = await srv.members.fetch(srv.ownerId);
 		const ownerAvatar = owner.user.avatarURL({ dynamic: true });
+
 		// Récupère l'utilisateur qui a effectué la commande
 		const intUser = interaction.user;
 		const intUserInfo = await intUser.fetch(intUser.id);
+
 		// Récupère la cible de la commande /info user
 		const user = interaction.options.getUser('target');
 
@@ -43,9 +47,18 @@ module.exports = {
 		switch (interaction.options.getSubcommand()) {
 			case 'user':
 				if (user) {
-					// Pour récupérer la date à laquelle l'utilisateur a rejoint le serveur
+					// Pour récupérer les informations d'un utilisateur spécifique
 					const userInfo = await srv.members.fetch(user.id);
+					// Liste de ses rôles
+					const userRoles = userInfo._roles;
+					const roles = [];
+					userRoles.forEach(e => {
+						// ['<@&role_id1>', '<@&role_id2', ...]
+						roles.push(`<@&${e}>`);
+					});
+					// Date à laquelle l'utilisateur a rejoint le serveur
 					const userJoinedT = userInfo.joinedTimestamp;
+
 					// Ajout des informations sur un utilisateur spécifique
 					embed.setAuthor({ name: user.tag, iconURL: user.avatarURL({ dynamic: true }) });
 					embed.addFields(
@@ -53,13 +66,22 @@ module.exports = {
 						{ name: 'Pseudo sur ce serveur', value: `${user}`, inline: true },
 						{ name: 'Compte créé le', value: `<t:${Math.floor(user.createdTimestamp / 1000)}:F>` },
 						{ name: 'Serveur rejoint le', value: `<t:${Math.floor(userJoinedT / 1000)}:F>` },
+						{ name: `Rôles [${userRoles.length}]`, value: roles.join(', ') },
 					);
 					embed.setThumbnail(`${user.avatarURL({ dynamic: true })}`);
 					await interaction.reply({ embeds: [embed] });
 				}
 				else {
-					// Pour récupérer la date à laquelle l'utilisateur a rejoint le serveur (ça marche pas psk jsp coder)
+					// Liste des rôles de l'utilisateur
+					const intUserRoles = interaction.member._roles;
+					const roles = [];
+					intUserRoles.forEach(e => {
+						// ['<@&role_id1>', '<@&role_id2', ...]
+						roles.push(`<@&${e}>`);
+					});
+					// Date à laquelle l'utilisateur a rejoint le serveur (ça marche pas psk jsp coder)
 					const intUserInfoJoinedT = intUserInfo.joinedTimestamp;
+
 					// Ajout des informations sur l'utilisateur
 					embed.setAuthor({ name: intUser.tag, iconURL: intUser.avatarURL({ dynamic: true }) });
 					embed.addFields(
@@ -67,6 +89,7 @@ module.exports = {
 						{ name: 'Pseudo sur ce serveur', value: `${intUser}`, inline: true },
 						{ name: 'Compte créé le', value: `<t:${Math.floor(intUser.createdTimestamp / 1000)}:F>` },
 						{ name: 'Serveur rejoint le', value: `<t:${Math.floor(intUserInfoJoinedT / 1000)}:F>` },
+						{ name: `Rôles [${intUserRoles.length}]`, value: roles.join(', ') },
 					);
 					embed.setThumbnail(`${intUser.avatarURL({ dynamic: true })}`);
 					await interaction.reply({ embeds: [embed] });
@@ -86,6 +109,7 @@ module.exports = {
 					{ name: 'Propriétaire du serveur', value: `${owner} [${owner.user.id}]` },
 				);
 				embed.addField('Serveur créé le', `<t:${Math.floor(srv.createdTimestamp / 1000)}:F>`);
+				embed.addField(`Rôles [${srvRoles.length}]`, srvRoles.join(','));
 				await interaction.reply({ embeds: [embed] });
 			break;
 

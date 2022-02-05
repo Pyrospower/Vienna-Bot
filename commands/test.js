@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+// const { MessageEmbed } = require('discord.js');
+const ytsr = require('ytsr');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,31 +8,14 @@ module.exports = {
 		.setDescription('Pour les commandes de test (jsp si elles fonctionnent)'),
 
 	async execute(interaction) {
-		// test
-		const montest = interaction.member._roles;
-		// Embed avec les informations
-		const embedOwner = new MessageEmbed()
-		.setColor('#073D79')
-		.setAuthor({ name: interaction.client.user.tag, iconURL: interaction.client.user.displayAvatarURL({ dynamic: true }) })
-		.setThumbnail(interaction.client.user.displayAvatarURL({ dynamic: true }))
-		.addFields(
-			{ name: 'ID', value: interaction.applicationId, inline: true },
-			{ name: 'Rôles', value: `test`, inline: true },
-		)
-		.setTimestamp()
-		.setFooter({ text: `Demandé par ${interaction.user.tag}`, iconURL: interaction.user.avatarURL({ dynamic: true }) });
 
-		console.log(interaction.member);
-		console.log(montest.join(' | '));
-		montest.forEach(element => {
-			console.log(`<@&${element}>`);
-		});
+		// Envoi de message privé
+		// interaction.user.send('Ceci est un MP').catch(e => console.log(e));
 
-		// Réponse
-		await interaction.reply({ content: 'test :', embeds: [embedOwner], ephemeral: true });
+		// test ytsr
+		const searchResults = await ytsr('vtubervostfr').catch(e => console.log(e));
+		console.log(searchResults);
+		await interaction.reply({ content: `[${searchResults.items[0].title}](${searchResults.items[0].url})` });
 
-		// test
-		const varTest = await interaction.user.fetch('id');
-		varTest.send('Ceci est un MP').catch(e => console.log(e));
 	},
 };

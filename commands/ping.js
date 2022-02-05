@@ -7,9 +7,10 @@ module.exports = {
 	async execute(interaction) {
 		// Calcul du délai
 		const intDate = new Date().getTime();
-		const delay = intDate - interaction.createdTimestamp;
+		const delay = interaction.createdTimestamp - intDate;
 		// Réponse et affichage du délai
 		await interaction.reply({ content: `🏓 Pong ! \`${delay}ms\`` });
+		// Websocket heartbeat: ${client.ws.ping}ms
 
 		// Récupère des infos sur la réponse
 		/* const message = await interaction.fetchReply();
