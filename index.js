@@ -65,7 +65,7 @@ client.on('messageCreate', async message => {
 						return (reaction.emoji.name === '🔁' || reaction.emoji.name === '❤️' || reaction.emoji.name === '💬') && user != '932401286882676756';
 					};
 
-					const collector = message.createReactionCollector({ filter, time: 15000 });
+					const collector = message.createReactionCollector({ filter, time: 60000 });
 
 					// Affiche dans la console les réactions collectées
 					collector.on('collect', (reaction, user) => {
