@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +8,11 @@ module.exports = {
 			subcommand
 				.setName('user')
 				.setDescription('Informations sur un utilisateur')
-				.addUserOption(option => option.setName('target').setDescription(`L'utilisateur dont vous voulez les informations`)),
+				.addUserOption(option =>
+					option
+					.setName('target')
+					.setDescription(`L'utilisateur dont vous voulez les informations`)
+					.setRequired(true)),
 			)
 		.addSubcommand(subcommand =>
 			subcommand
@@ -21,6 +24,7 @@ module.exports = {
 				.setName('owner')
 				.setDescription('Informations sur le propriétaire du serveur'),
 			),
+		// .setDMPermission(false);
 
 	async execute(interaction) {
 		// Récupère le serveur dans lequel la commande a été effectuée
@@ -39,7 +43,7 @@ module.exports = {
 		const user = interaction.options.getUser('target');
 
 		// Embed
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 		.setColor('#073D79')
 		.setTimestamp()
 		.setFooter({ text: `Demandé par ${intUser.tag}`, iconURL: intUser.avatarURL({ dynamic: true }) });
@@ -102,14 +106,13 @@ module.exports = {
 				embed.setThumbnail(`${srv.iconURL({ dynamic: true })}`);
 				embed.setTitle(`ID : ${srv.id}`);
 				embed.addFields(
-					{ name: 'Niveau de vérification', value: srv.verificationLevel },
 					{ name: 'Région', value: srv.preferredLocale, inline: true },
 					{ name: 'Membres', value: `${srv.memberCount}`, inline: true },
 					{ name: 'Boosts', value: `${srv.premiumSubscriptionCount}`, inline: true },
 					{ name: 'Propriétaire du serveur', value: `${owner} [${owner.user.id}]` },
+					{ name: 'Serveur créé le', value: `<t:${Math.floor(srv.createdTimestamp / 1000)}:F>` },
+					{ name: `Rôles [${srvRoles.length}]`, value: srvRoles.join(',') },
 				);
-				embed.addField('Serveur créé le', `<t:${Math.floor(srv.createdTimestamp / 1000)}:F>`);
-				embed.addField(`Rôles [${srvRoles.length}]`, srvRoles.join(','));
 				await interaction.reply({ embeds: [embed] });
 			break;
 
@@ -121,8 +124,8 @@ module.exports = {
 					{ name: 'ID', value: owner.user.id, inline: true },
 					{ name: 'Pseudo sur ce serveur', value: `${owner}`, inline: true },
 					{ name: 'Compte créé le', value: `<t:${Math.floor(owner.user.createdTimestamp / 1000)}:F>` },
+					{ name: 'Serveur créé le', value: `<t:${Math.floor(srv.createdTimestamp / 1000)}:F>` },
 				);
-				embed.addField('Serveur créé le', `<t:${Math.floor(srv.createdTimestamp / 1000)}:F>`);
 				await interaction.reply({ embeds: [embed] });
 			break;
 		}

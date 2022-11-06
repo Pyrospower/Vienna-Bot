@@ -1,30 +1,39 @@
 // Require the necessary discord.js classes
-const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({
-	intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.DIRECT_MESSAGES],
-	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions],
+	partials: [Partials.Channel],
 });
 
 // Mes commandes
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	// Set a new item in the Collection
-	// With the key as the command name and the value as the exported module
-	client.commands.set(command.data.name, command);
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
+	}
+	else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+	}
 }
 
 // Mes événements
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-	const event = require(`./events/${file}`);
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args));
 	}
@@ -33,13 +42,10 @@ for (const file of eventFiles) {
 	}
 }
 
-// Lien du repo
-const repoLink = 'https://github.com/Pyrospower/Vienna-Bot/';
-
 // Login to Discord with your client's token
 client.login(token);
 
-module.exports = client;
+// module.exports = client;
 
 client.on('messageCreate', async message => {
 	if (message.author.bot) return;
@@ -115,30 +121,6 @@ client.on('messageCreate', async message => {
 ${likesAmount} ❤️: ${likesUsersList.join(', ')}
 ${commsAmount} 💬: ${commsUsersList.join(', ')}`);
 					});
-			}
-
-
-			// Commandes avec préfixe v!
-			if (message.content.substring(0, 2) == 'v!') {
-				// Récupère la commande utilisée
-				const args = message.content.substring(2).split(" ");
-				const command = args[0].toLowerCase();
-
-				// 🕵️
-				const vCmdLog = `${message.author.tag} a utilisé v!${command} dans ${message.guild.name} (#${message.channel.name}) à ${new Date().toTimeString()}`;
-
-				switch (command) {
-					case 'repo':
-					// fall through
-					case 'repository':
-						message.channel.send(`Repo Github du bot : ${repoLink}`);
-						console.log(vCmdLog);
-					break;
-					case 'vostfr':
-						message.channel.send(`Vidéos avec le hashtag **#vtuber${command}** :\nhttps://youtube.com/hashtag/vtuber${command}`);
-						console.log(vCmdLog);
-					break;
-				}
 			}
 		break;
 		}

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const wait = require('util').promisify(setTimeout);
 const ytpl = require('ytpl');
 
@@ -64,7 +63,7 @@ module.exports = {
                 });
 
                 // Embed avec les informations de la playlist
-                const embedPlaylist = new MessageEmbed()
+                const embedPlaylist = new EmbedBuilder()
                 .setColor('#073D79')
                 .setAuthor({ name: `Clips de ${plPyr.author.name}`, iconURL: plPyr.author.bestAvatar.url, url: plPyr.url })
                 .setThumbnail(plPyr.bestThumbnail.url)
@@ -86,7 +85,7 @@ module.exports = {
                 const clips = [];
                 // Un embed par clip (devrait crash s'il y en a + que 9)
                 for (let i = 0; i < plPyr.items.length; i++) {
-                    const embedClip = new MessageEmbed()
+                    const embedClip = new EmbedBuilder()
                     .setColor('#073D79')
                     .setTitle(plPyr.items[i].title)
                     .setURL(plPyr.items[i].url)
@@ -123,12 +122,11 @@ module.exports = {
                 });
 
                 // Embed avec les informations de la playlist
-                const embedPlaylist = new MessageEmbed()
+                const embedPlaylist = new EmbedBuilder()
                 .setColor('#073D79')
                 .setAuthor({ name: `Clips de ${plYyk.author.name}`, iconURL: plYyk.author.bestAvatar.url, url: plYyk.url })
                 .setThumbnail(plYyk.bestThumbnail.url)
                 .setTitle(plYyk.title)
-                .setDescription(plYyk.description)
                 .addFields(
                     { name: 'Vidéos', value: `${plYyk.estimatedItemCount}`, inline: true },
                     { name: 'Durée totale', value: `${conversionHMS(plDuration)}`, inline: true },
@@ -145,7 +143,7 @@ module.exports = {
                 const clips = [];
                 // Un embed par clip (devrait crash s'il y en a + que 9)
                 for (let i = 0; i < plYyk.items.length; i++) {
-                    const embedClip = new MessageEmbed()
+                    const embedClip = new EmbedBuilder()
                     .setColor('#073D79')
                     .setTitle(plYyk.items[i].title)
                     .setURL(plYyk.items[i].url)
