@@ -78,6 +78,7 @@
     "paths": {
       "@/commands/*": ["commands/*"],
       "@/handlers/*": ["handlers/*"],
+      "@/utils/*": ["utils/*"],
       "@/events/*": ["events/*"]
     },
 

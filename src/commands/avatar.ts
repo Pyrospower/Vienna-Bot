@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
+import { createEmbed } from "../utils/embed";
 import { SlashCommand } from "../types";
 
 const command: SlashCommand = {
@@ -18,13 +19,7 @@ const command: SlashCommand = {
     if (!user) return;
 
     // Embed
-    const embed = new EmbedBuilder()
-      .setColor("#073D79")
-      .setTimestamp()
-      .setFooter({
-        text: `Demandé par ${intUser.tag}`,
-        iconURL: intUser.avatarURL() || "",
-      });
+    const embed = createEmbed(intUser);
 
     // Ajout des informations sur un utilisateur spécifique
     embed.setAuthor({

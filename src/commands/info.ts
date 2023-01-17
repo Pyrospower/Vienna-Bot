@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder, Role } from "discord.js";
+import { SlashCommandBuilder, Role } from "discord.js";
+import { createEmbed } from "../utils/embed";
 import { SlashCommand } from "../types";
 
 const command: SlashCommand = {
@@ -48,13 +49,7 @@ const command: SlashCommand = {
     const user = interaction.options.getUser("target");
 
     // Embed
-    const embed = new EmbedBuilder()
-      .setColor("#073D79")
-      .setTimestamp()
-      .setFooter({
-        text: `Demandé par ${intUser.tag}`,
-        iconURL: intUser.avatarURL() || "",
-      });
+    const embed = createEmbed(intUser);
 
     switch (interaction.options.getSubcommand()) {
       case "user":
