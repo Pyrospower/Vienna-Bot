@@ -5,11 +5,12 @@ import {
   PermissionResolvable,
   Message,
   AutocompleteInteraction,
+  ChatInputCommandInteraction,
 } from "discord.js";
 
 export interface SlashCommand {
   data: SlashCommandBuilder | any;
-  execute: (interaction: CommandInteraction) => void;
+  execute: (interaction: ChatInputCommandInteraction) => void;
   autocomplete?: (interaction: AutocompleteInteraction) => void;
 }
 
