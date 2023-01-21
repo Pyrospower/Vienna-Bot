@@ -6,7 +6,7 @@ import { timeToMilliseconds, timeToString } from "../utils/time";
 const command: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("remindme")
-    .setDescription("Envoie un message dans un channel après un certain temps")
+    .setDescription("Envoie un message dans un channel après un certain temps (à spécifier)")
     .addStringOption((option) =>
       option
         .setName("reminder")
@@ -19,7 +19,6 @@ const command: SlashCommand = {
         .setDescription(
           "Le temps après lequel le message sera envoyé en secondes"
         )
-        .setRequired(true)
         .setMinValue(0)
         .setMaxValue(59)
     )
@@ -62,6 +61,15 @@ const command: SlashCommand = {
       days: interaction.options.getNumber("jours") ?? 0,
     };
     const reminder = interaction.options.getString("reminder");
+
+    // Si le temps est égal à 0, on envoie un message d'erreur
+    if (timeToMilliseconds(time) === 0) {
+      await interaction.reply({
+        content: "Erreur : vous n'avez pas spécifié de durée.",
+        ephemeral: true,
+      });
+      return;
+    }
 
     // Si le message est trop long, on envoie un message d'erreur
     if (reminder && reminder.length > 1000) {
