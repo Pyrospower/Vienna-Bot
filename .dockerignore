@@ -1,0 +1,11 @@
+.DS_Store
+.github
+.gitignore
+.idea
+.icloud
+.node-version
+.vscode
+dist
+LICENSE
+node_modules
+npm-debug.log
