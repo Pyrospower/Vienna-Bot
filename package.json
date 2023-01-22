@@ -7,8 +7,7 @@
     "build": "tsc",
     "dev": "nodemon --watch src -e js,ts,json --exec \"ts-node src/index.ts\"",
     "start": "npm run build && node dist/index.js",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
