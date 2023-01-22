@@ -28,7 +28,6 @@ Liste de choses à faire :
 - [ ] `/help`, avec un embed (à séparer en catégories et mettre un bouton avec le lien du repo ?)
 - [ ] Embed pour `/help`
 - [ ] `/clips Pyrospower`, `/clips Yayaka` sur plusieurs pages avec des boutons
-- [ ] Intégrer Vitest
 
 ## En lien avec YouTube
 
