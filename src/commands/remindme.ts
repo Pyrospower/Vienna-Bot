@@ -83,7 +83,7 @@ const command: SlashCommand = {
     // On envoie un message de confirmation
     const remindmeTime = timeToString(time);
 
-    const embed = createEmbed(interaction.user);
+    const embed = createEmbed();
     embed.setDescription(`✅ Vous aurez un rappel dans ${remindmeTime}`);
 
     await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -91,7 +91,7 @@ const command: SlashCommand = {
     // On envoie le message après le temps spécifié
     const { createdTimestamp } = interaction;
 
-    const reminderEmbed = createEmbed(interaction.user)
+    const reminderEmbed = createEmbed()
       .setTitle("⏰ Rappel")
       .setDescription(reminder)
       .setTimestamp(createdTimestamp);

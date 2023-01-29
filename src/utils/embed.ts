@@ -4,18 +4,15 @@ import { EmbedBuilder, User } from "discord.js";
 const embedColor = "#073D79";
 
 // Embed générique
-export function createEmbed(interactionUser: User) {
-  const embed = new EmbedBuilder().setColor(embedColor);
-
-  return embed;
+export function createEmbed() {
+  return new EmbedBuilder().setColor(embedColor);
 }
 
 export function createEmbedWithFooter(interactionUser: User) {
-  const embed = createEmbed(interactionUser);
-  embed.setTimestamp().setFooter({
-    text: `Demandé par ${interactionUser.tag}`,
-    iconURL: interactionUser.avatarURL() || "",
-  });
-
-  return embed;
+  return createEmbed()
+    .setTimestamp()
+    .setFooter({
+      text: `Demandé par ${interactionUser.tag}`,
+      iconURL: interactionUser.avatarURL() || "",
+    });
 }
