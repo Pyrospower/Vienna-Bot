@@ -1,6 +1,6 @@
 {
   "name": "vienna-bot",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "Un bot que j'ai fait dans l'intention de ratio des gens (inspiré par [ce tweet](https://twitter.com/viennavtuber/status/1481998814944837633?s=20)), sauf que c'est allé plus loin.",
   "main": "src/index.ts",
   "scripts": {
@@ -21,11 +21,10 @@
   },
   "homepage": "https://github.com/Pyrospower/Vienna-Bot#readme",
   "dependencies": {
-    "discord-api-types": "^0.37.28",
+    "discord-api-types": "^0.37.30",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "ytpl": "^2.3.0",
-    "ytsr": "^3.8.0"
+    "googleapis": "^110.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

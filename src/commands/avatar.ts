@@ -19,7 +19,7 @@ const command: SlashCommand = {
     if (!user) return;
 
     // Embed
-    const embed = createEmbed(intUser);
+    const embed = createEmbed();
 
     // Ajout des informations sur un utilisateur spécifique
     embed.setAuthor({

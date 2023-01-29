@@ -49,7 +49,7 @@ const command: SlashCommand = {
     const user = interaction.options.getUser("target");
 
     // Embed
-    const embed = createEmbed(intUser);
+    const embed = createEmbed();
 
     switch (interaction.options.getSubcommand()) {
       case "user":
