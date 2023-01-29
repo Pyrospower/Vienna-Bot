@@ -33,5 +33,4 @@ Liste de choses à faire :
 
 Liste de choses à faire avec l'API YouTube :
 
-- [ ] Voir pour récupérer les vidéos d'une playlist ([cette playlist](https://youtube.com/playlist?list=PLJDM6ZLBk7fdgmGfvMvbo6DcO-WRH2sz6))
 - [ ] Voir s'il est possible de récupérer les vidéos qui ont le hashtag **#VTuberVOSTFR** : [lien](https://youtube.com/hashtag/vtubervostfr)
