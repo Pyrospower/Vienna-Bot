@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { createEmbedWithFooter } from "../utils/embed";
 import { SlashCommand } from "../types";
-import { getPlaylist } from "../utils/youtube";
+import { getPlaylistInfo } from "../utils/youtube";
 
 type IPlaylists = {
     [key: string]: string
@@ -33,20 +33,20 @@ const command: SlashCommand = {
         const playlistId: keyof IPlaylists = playlists[subcommand];
 
         try {
-            const playlist = await getPlaylist(playlistId);
+            const playlist = await getPlaylistInfo(playlistId);
             if (!playlist) return interaction.reply({ content: "Playlist introuvable", ephemeral: true });
 
-            const { snippet } = playlist;
+            const { snippet, videos } = playlist;
 
             const embed = createEmbedWithFooter(interaction.user)
                 .setAuthor({ name: `Clips de ${snippet?.channelTitle || subcommand}` })
-                .setThumbnail(snippet?.thumbnails?.high?.url || "")
+                .setThumbnail(snippet?.thumbnails?.maxres?.url || "")
                 .setTitle(snippet?.title || "")
                 .setURL(`https://www.youtube.com/playlist?list=${playlistId}`)
                 .setDescription(snippet?.description || " ");
 
             // Réponse
-            // TODO: Ajouter des informations à l'embed
+            // TODO: Ajouter des informations à l'embed ou un follow-up
             interaction.reply({ embeds: [embed] });
         } catch (err) {
             console.error(err);
